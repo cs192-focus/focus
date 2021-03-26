@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddTaskActivity">
+
+    <EditText
+        android:id="@+id/addTaskTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/addTaskNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:hint="Notes"
+        app:layout_constraintStart_toStartOf="@+id/addTaskTitle"
+        app:layout_constraintTop_toBottomOf="@+id/addTaskTitle" />
+
+    <EditText
+        android:id="@+id/addTaskDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="date"
+        android:hint="Date"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        app:layout_constraintStart_toStartOf="@+id/addTaskNotes"
+        app:layout_constraintTop_toBottomOf="@+id/addTaskNotes" />
+
+
+    <EditText
+        android:id="@+id/addTaskTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="time"
+        android:hint="Time"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        app:layout_constraintStart_toStartOf="@+id/addTaskDate"
+        app:layout_constraintTop_toBottomOf="@+id/addTaskDate" />
+
+    <RadioGroup
+        android:id="@+id/addTaskPriority"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="220dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/addTaskPriority1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Priority 1" />
+
+        <RadioButton
+            android:id="@+id/addTaskPriority2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Priority 2" />
+
+        <RadioButton
+            android:id="@+id/addTaskPriority3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Priority 3" />
+
+        <RadioButton
+            android:id="@+id/addTaskPriority4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Priority 4" />
+    </RadioGroup>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_check_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
