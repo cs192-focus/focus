@@ -43,7 +43,7 @@ abstract class TaskRoomDatabase : RoomDatabase() {
                 "Complete add and delete task functionality",
                 LocalDate.parse("20210326", DateTimeFormatter.BASIC_ISO_DATE),
                 LocalTime.parse("18:00:00"),
-                5,
+                4,
                 false
             )
             taskDao.insert(task)
