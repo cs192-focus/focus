@@ -1,4 +1,4 @@
-package com.focus.focusproductivitymanager
+package com.focus.focusproductivitymanager.task
 
 import android.app.Application
 import kotlinx.coroutines.CoroutineScope

@@ -1,4 +1,4 @@
-package com.focus.focusproductivitymanager
+package com.focus.focusproductivitymanager.task
 
 import android.content.Context
 import android.util.Log
@@ -38,13 +38,13 @@ abstract class TaskRoomDatabase : RoomDatabase() {
             taskDao.deleteAll()
             // Add sample words.
             var task = Task(
-                0,
-                "CS 192 Sprint 1",
-                "Complete add and delete task functionality",
-                LocalDate.parse("20210326", DateTimeFormatter.BASIC_ISO_DATE),
-                LocalTime.parse("18:00:00"),
-                4,
-                false
+                    0,
+                    "CS 192 Sprint 1",
+                    "Complete add and delete task functionality",
+                    LocalDate.parse("20210326", DateTimeFormatter.BASIC_ISO_DATE),
+                    LocalTime.parse("18:00:00"),
+                    4,
+                    false
             )
             taskDao.insert(task)
 
@@ -60,7 +60,8 @@ abstract class TaskRoomDatabase : RoomDatabase() {
         fun getDatabase(context: Context, scope: CoroutineScope): TaskRoomDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
-            return INSTANCE ?: synchronized(this) {
+            return INSTANCE
+                    ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     TaskRoomDatabase::class.java,

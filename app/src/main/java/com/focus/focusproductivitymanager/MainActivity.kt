@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.focus.focusproductivitymanager.task.OnTaskDelete
+import com.focus.focusproductivitymanager.task.Task
+import com.focus.focusproductivitymanager.task.TaskApplication
+import com.focus.focusproductivitymanager.task.TaskListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.time.LocalDate
 import java.time.LocalTime
@@ -90,13 +94,13 @@ class MainActivity : AppCompatActivity(), OnTaskDelete {
                 val priority = Integer.parseInt(reply[4])
 
                 taskViewModel.insert(Task(
-                    0,
-                    title,
-                    notes,
-                    date,
-                    time,
-                    priority,
-                    false))
+                        0,
+                        title,
+                        notes,
+                        date,
+                        time,
+                        priority,
+                        false))
             }
         }
     }

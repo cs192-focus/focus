@@ -1,4 +1,4 @@
-package com.focus.focusproductivitymanager
+package com.focus.focusproductivitymanager.task
 
 import androidx.room.Dao
 import androidx.room.Delete

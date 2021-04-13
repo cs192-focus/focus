@@ -1,6 +1,8 @@
 package com.focus.focusproductivitymanager
 
 import androidx.lifecycle.*
+import com.focus.focusproductivitymanager.task.Task
+import com.focus.focusproductivitymanager.task.TaskRepository
 import kotlinx.coroutines.launch
 
 /**
