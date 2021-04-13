@@ -1,4 +1,4 @@
-package com.focus.focusproductivitymanager.task
+package com.focus.focusproductivitymanager.timer
 
 import android.content.Context
 import android.util.Log
@@ -11,15 +11,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
-@Database(entities = arrayOf(Task::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(Timer::class), version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
-abstract class TaskRoomDatabase : RoomDatabase() {
+abstract class TimerRoomDatabase : RoomDatabase() {
 
-    abstract fun taskDao(): TaskDao
+    abstract fun timerDao(): TimerDao
 
-    private class TaskDatabaseCallback(
+    private class TimerDatabaseCallback(
         private val scope: CoroutineScope
     ) : RoomDatabase.Callback() {
 
@@ -28,25 +27,23 @@ abstract class TaskRoomDatabase : RoomDatabase() {
             INSTANCE?.let { database ->
                 scope.launch {
                     Log.d("Focus", "here!!!")
-                    populateDatabase(database.taskDao())
+                    populateDatabase(database.timerDao())
                 }
             }
         }
 
-        suspend fun populateDatabase(taskDao: TaskDao) {
+        suspend fun populateDatabase(timerDao: TimerDao) {
 
-            taskDao.deleteAll()
-            // Add sample words.
-            var task = Task(
-                    0,
-                    "CS 192 Sprint 1",
-                    "Complete add and delete task functionality",
-                    LocalDate.parse("20210326", DateTimeFormatter.BASIC_ISO_DATE),
-                    LocalTime.parse("18:00:00"),
-                    4,
-                    false
+            timerDao.deleteAll()
+            var timer = Timer(
+                0,
+                "Timer",
+                LocalDate.now(),
+                LocalTime.of(17, 30),
+                LocalTime.of(18, 0),
+                "Here are some notes"
             )
-            taskDao.insert(task)
+            timerDao.insert(timer)
 
         }
     }
@@ -55,18 +52,18 @@ abstract class TaskRoomDatabase : RoomDatabase() {
         // Singleton prevents multiple instances of database opening at the
         // same time.
         @Volatile
-        private var INSTANCE: TaskRoomDatabase? = null
+        private var INSTANCE: TimerRoomDatabase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): TaskRoomDatabase {
+        fun getDatabase(context: Context, scope: CoroutineScope): TimerRoomDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
             return INSTANCE
                     ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    TaskRoomDatabase::class.java,
-                    "task_database"
-                ).addCallback(TaskDatabaseCallback(scope)).build()
+                    TimerRoomDatabase::class.java,
+                    "timer_database"
+                ).addCallback(TimerDatabaseCallback(scope)).build()
                 INSTANCE = instance
                 // return instance
                 instance
