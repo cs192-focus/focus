@@ -1,16 +1,21 @@
-# focus
+# Focus Productivity Manager
 
-A new Flutter project.
+This is a course requirements for CS191/192 Software Engineering Courses of the Department of Computer Science,
+College of Engineering, University of the Philippines, Diliman under the guidance of Ma. Rowena C. Solamo for AY 2020-2021.
 
-## Getting Started
+## Members
 
-This project is a starting point for a Flutter application.
+1. CALORACAN, Denise
+2. MONTECASTRO, Daniel
+3. BATARA, Maded
+4. DULINAYAN, Sophia
 
-A few resources to get you started if this is your first Flutter project:
+## Build instructions
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Upon cloning the app, run
+```
+$ flutter build apk
+```
+to generate a ready APK for the app.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Alternatively, import the app into your Flutter IDE of choice and run and debug it from there.
