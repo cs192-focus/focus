@@ -5,21 +5,18 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 void showAddTaskModal(BuildContext context) => showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(10.0),
+        ),
+      ),
       context: context,
-      builder: (BuildContext context) {
-        return Container(
-          child: Container(
-            decoration: new BoxDecoration(
-              borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(25.0),
-                topRight: const Radius.circular(25.0),
-              ),
-            ),
-            margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
-            child: AddTaskForm(),
-          ),
-        );
-      },
+      isScrollControlled: true,
+      builder: (context) => Container(
+        height: 180,
+        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        child: AddTaskForm(),
+      ),
     );
 
 Icon priorityIcon(int i, {double? size}) {
@@ -50,7 +47,10 @@ class _AddTaskFormState extends State<AddTaskForm> {
 
   TextEditingController titleController = TextEditingController();
 
-  DateTime _date = DateTime.now();
+  String notes = "";
+  String title = "";
+
+  DateTime? _date;
   String _dateString = "No date";
 
   TimeOfDay? _time;
@@ -66,7 +66,7 @@ class _AddTaskFormState extends State<AddTaskForm> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _date,
+      initialDate: _date ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
@@ -237,6 +237,8 @@ class _AddTaskFormState extends State<AddTaskForm> {
     return Form(
       key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           taskTitle,
           SingleChildScrollView(
@@ -258,13 +260,14 @@ class _AddTaskFormState extends State<AddTaskForm> {
             TextButton.icon(
               onPressed: submittable
                   ? () {
+                      title = titleController.text;
+                      notes = noteController.text;
                       if (_formKey.currentState!.validate()) {
-                        String title = titleController.text;
-                        String notes = noteController.text;
-                        titleController.dispose();
-                        noteController.dispose();
+                        print("$title, $notes, $_date, $_time, $priority");
                         Provider.of<TaskModel>(context, listen: false)
                             .addTask(title, notes, _date, _time, priority);
+                        titleController.clear();
+                        noteController.clear();
                         Navigator.pop(context);
                       } else {
                         return null;

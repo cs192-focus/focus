@@ -5,21 +5,18 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 void showAddTimerModal(BuildContext context) => showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(10.0),
+        ),
+      ),
       context: context,
-      builder: (BuildContext context) {
-        return Container(
-          child: Container(
-            decoration: new BoxDecoration(
-              borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(25.0),
-                topRight: const Radius.circular(25.0),
-              ),
-            ),
-            margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
-            child: AddTimerForm(),
-          ),
-        );
-      },
+      isScrollControlled: true,
+      builder: (context) => Container(
+        height: 180,
+        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        child: AddTimerForm(),
+      ),
     );
 
 class AddTimerForm extends StatefulWidget {
@@ -36,12 +33,15 @@ class _AddTimerFormState extends State<AddTimerForm> {
 
   TextEditingController titleController = TextEditingController();
 
+  bool dateChosen = false;
   DateTime _date = DateTime.now();
   String _dateString = "No date";
 
+  bool timeStartChosen = false;
   TimeOfDay _timeStart = TimeOfDay(hour: 0, minute: 0);
   String _timeStartString = "No start time";
 
+  bool timeEndChosen = false;
   TimeOfDay _timeEnd = TimeOfDay(hour: 0, minute: 30);
   String _timeEndString = "No end time";
 
@@ -60,28 +60,35 @@ class _AddTimerFormState extends State<AddTimerForm> {
       setState(() {
         _date = picked;
         _dateString = DateFormat('MMM d').format(picked);
+        dateChosen = true;
       });
   }
 
   Future<void> _selectTimeStart(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: _timeStart ?? TimeOfDay.now(),
+      initialTime: _timeStart,
     );
     setState(() {
-      _timeStart = picked!;
-      _timeStartString = "Starts at ${picked.format(context)}";
+      if (picked != null && picked != _timeStart) {
+        timeStartChosen = true;
+        _timeStart = picked;
+        _timeStartString = "Starts at ${picked.format(context)}";
+      }
     });
   }
 
   Future<void> _selectTimeEnd(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: _timeEnd ?? TimeOfDay.now(),
+      initialTime: _timeEnd,
     );
     setState(() {
-      _timeEnd = picked!;
-      _timeEndString = "Ends at ${picked.format(context)}";
+      if (picked != null && picked != _timeEnd) {
+        timeEndChosen = true;
+        _timeEnd = picked;
+        _timeEndString = "Ends at ${picked.format(context)}";
+      }
     });
   }
 
@@ -148,7 +155,7 @@ class _AddTimerFormState extends State<AddTimerForm> {
         contentPadding: EdgeInsets.zero,
         border: InputBorder.none,
         errorStyle: TextStyle(height: 0, color: Colors.transparent),
-        hintText: 'Add a task',
+        hintText: 'Add a timer',
       ),
       onChanged: (string) {
         setState(() {
@@ -217,13 +224,16 @@ class _AddTimerFormState extends State<AddTimerForm> {
           Spacer(),
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             TextButton.icon(
-              onPressed: submittable
+              onPressed: (submittable &&
+                      dateChosen &&
+                      timeStartChosen &&
+                      timeEndChosen)
                   ? () {
                       if (_formKey.currentState!.validate()) {
                         String title = titleController.text;
                         String notes = noteController.text;
-                        titleController.dispose();
-                        noteController.dispose();
+                        titleController.clear();
+                        noteController.clear();
                         Provider.of<TimerModel>(context, listen: false)
                             .addTimer(
                                 title, notes, _date, _timeStart, _timeEnd);

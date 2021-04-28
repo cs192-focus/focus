@@ -42,7 +42,7 @@ class TaskModel extends ChangeNotifier {
 
   Task getTask(int i) => _tasks[i];
 
-  void addTask(String title, String notes, DateTime date, TimeOfDay? time,
+  void addTask(String title, String notes, DateTime? date, TimeOfDay? time,
       int priority) {
     _tasks.add(Task(
       id: _tasks.last.id + 1,

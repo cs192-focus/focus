@@ -143,7 +143,15 @@ class _TaskListState extends State<TaskList> {
             }
             return Dismissible(
               background: Container(
-                  color: Colors.red, child: Icon(Icons.delete_outline)),
+                color: Colors.red,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 20),
+                    Icon(Icons.delete_outline, size: 32)
+                  ],
+                ),
+              ),
               key: Key(t.id.toString()),
               onDismissed: (direction) {
                 tasklist.deleteTask(posn);
