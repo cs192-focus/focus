@@ -1,14 +1,14 @@
-import 'package:focus/timers/newtimer.dart';
-import 'package:focus/timers/timerlist.dart';
-import 'package:focus/timers/timermodel.dart';
+import 'package:focus/dao/timers/newtimer.dart';
+import 'package:focus/widgets/timerlist.dart';
+import 'package:focus/dao/timers/timermodel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:focus/fab_bottom_appbar.dart';
-import 'package:focus/strings.dart';
-import 'package:focus/tasks/newtask.dart';
-import 'package:focus/tasks/tasklist.dart';
+import 'package:focus/widgets/fab_bottom_appbar.dart';
+import 'package:focus/res/strings.dart';
+import 'package:focus/dao/tasks/newtask.dart';
+import 'package:focus/widgets/tasklist.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:focus/tasks/taskmodel.dart';
+import 'package:focus/dao/tasks/taskmodel.dart';
 
 void main() => runApp(MultiProvider(
       providers: [
@@ -51,7 +51,6 @@ class _FocusHomePageState extends State<FocusHomePage> {
   var lists = <Widget>[TaskList(), TimerList()];
   var index = 0;
 
-  @override
   void _selectedTab(int i) {
     setState(() {
       index = i;
