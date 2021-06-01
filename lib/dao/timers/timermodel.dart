@@ -70,4 +70,19 @@ class TimerModel extends ChangeNotifier {
         "Removed timer $i with ID ${lastDeletedTimer?.id}, ${_timers.length} tasks remaining in the list.");
     notifyListeners();
   }
+
+  void modifyTimer(
+      int i,
+      String title,
+      String notes,
+      DateTime date,
+      TimeOfDay timeStart,
+      TimeOfDay timeEnd,) {
+    _timers[i].title = title;
+    _timers[i].notes = notes;
+    _timers[i].date = date;
+    _timers[i].timeStart = timeStart;
+    _timers[i].timeEnd = timeEnd;
+    notifyListeners();
+  }
 }

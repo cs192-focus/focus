@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:focus/dao/timers/modtimer.dart';
 import 'package:focus/dao/timers/timermodel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:focus/dao/timers/timer.dart';
 
 /// A chip representing the Date.
 class DateChip extends StatelessWidget {
@@ -41,11 +43,13 @@ class TimeChip extends StatelessWidget {
 
 /// An item in the TimerList.
 class TimerListItem extends StatelessWidget {
+  final Timer timer;
   final String title;
   final List<Widget> info;
 
   const TimerListItem({
     Key? key,
+    required this.timer,
     required this.title,
     required this.info,
   }) : super(key: key);
@@ -53,6 +57,12 @@ class TimerListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () async {
+        final bool? modify = await _asyncConfirmationDialog(context, timer);
+        if (modify != null && modify == true) {
+          showModifyTimerModal(context, timer);
+        }
+      },
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: Row(
@@ -122,11 +132,71 @@ class _TimerListState extends State<TimerList> {
                   ),
                 ));
               },
-              child: TimerListItem(title: t.title, info: widgets),
+              child: TimerListItem(timer: t, title: t.title, info: widgets),
             );
           },
         );
       },
     );
   }
+}
+
+Future<bool?> _asyncConfirmationDialog(BuildContext context, Timer timer) async {
+  return showDialog<bool>(
+    context: context,
+    barrierDismissible: false, // user must tap button for close dialog!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(timer.title),
+        content: Container(
+          width: 300.0,
+          height: 220.0,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  DateChip(date: timer.date),
+                  SizedBox(width: 10),
+                  TimeChip(timeStart: timer.timeStart, timeEnd: timer.timeEnd),
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Container(
+                      height: 170.0,
+                      child: Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Text(
+                            timer.notes,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+          ),
+          TextButton(
+            child: const Text('Modify'),
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

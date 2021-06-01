@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:focus/dao/tasks/modtask.dart';
 import 'package:focus/dao/tasks/taskmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:focus/dao/tasks/task.dart';
 
 Icon priorityLabel(int i, {double? size}) {
   switch (i) {
@@ -53,6 +55,7 @@ class TimeChip extends StatelessWidget {
 
 /// An item in the TaskList.
 class TaskListItem extends StatelessWidget {
+  final Task task;
   final String title;
   final bool value;
   final int priority;
@@ -61,6 +64,7 @@ class TaskListItem extends StatelessWidget {
 
   const TaskListItem(
       {Key? key,
+      required this.task,
       required this.title,
       required this.info,
       required this.value,
@@ -71,6 +75,12 @@ class TaskListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () async {
+        final bool? modify = await _asyncConfirmationDialog(context, task);
+        if (modify != null && modify == true) {
+          showModifyTaskModal(context, task);
+        }
+      },
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: Row(
@@ -166,6 +176,7 @@ class _TaskListState extends State<TaskList> {
                 ));
               },
               child: TaskListItem(
+                task: t,
                 title: t.title,
                 info: widgets,
                 value: t.isComplete,
@@ -182,4 +193,86 @@ class _TaskListState extends State<TaskList> {
       },
     );
   }
+}
+
+Future<bool?> _asyncConfirmationDialog(BuildContext context, Task task) async {
+  String dateString = "No date";
+  String timeString = "No time";
+  if (task.date != null) {
+    dateString = DateFormat('MMM d').format(task.date!);
+  }
+  if (task.time != null) {
+    timeString = task.time!.format(context);
+  }
+  return showDialog<bool>(
+    context: context,
+    barrierDismissible: false, // user must tap button for close dialog!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Row(
+          children: <Widget>[
+            priorityLabel(task.priority, size: 18),
+            SizedBox(width: 10),
+            Text(task.title,),
+          ],
+        ),
+        content: Container(
+          width: 300.0,
+          height: 220.0,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Chip(
+                    labelPadding: EdgeInsets.fromLTRB(4, 0, 8, 0),
+                    avatar: Icon(Icons.alarm_outlined, size: 18.0),
+                    label: Text(dateString),
+                  ),
+                  SizedBox(width: 10),
+                  Chip(
+                    labelPadding: EdgeInsets.fromLTRB(4, 0, 8, 0),
+                    avatar: Icon(Icons.alarm_outlined, size: 18.0),
+                    label: Text(timeString),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Container(
+                      height: 170.0,
+                      child: Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Text(
+                            task.notes,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+          ),
+          TextButton(
+            child: const Text('Modify'),
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

@@ -70,4 +70,14 @@ class TaskModel extends ChangeNotifier {
         "Removed task $i with ID ${lastDeletedTask?.id}, ${_tasks.length} tasks remaining in the list.");
     notifyListeners();
   }
+
+  void modifyTask(int i, String title, String notes, DateTime? date,
+      TimeOfDay? time, int priority) {
+    _tasks[i].title = title;
+    _tasks[i].notes = notes;
+    _tasks[i].date = date;
+    _tasks[i].time = time;
+    _tasks[i].priority = priority;
+    notifyListeners();
+  }
 }
