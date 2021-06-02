@@ -144,7 +144,7 @@ class _ModifyTaskFormState extends State<ModifyTaskForm> {
         TextField(
           controller: noteController,
           keyboardType: TextInputType.multiline,
-          maxLines: 7,
+          maxLines: 4,
         ),
         Spacer(),
         Row(

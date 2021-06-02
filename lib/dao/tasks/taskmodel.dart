@@ -12,7 +12,7 @@ class TaskModel extends ChangeNotifier {
     _tasks.add(Task(
       id: 0,
       title: "Task 1",
-      notes: "",
+      notes: "This is a test note",
       date: DateTime.now(),
       time: TimeOfDay(hour: 0, minute: 0),
       priority: 3,
@@ -21,7 +21,7 @@ class TaskModel extends ChangeNotifier {
     _tasks.add(Task(
       id: 1,
       title: "Task 2",
-      notes: "",
+      notes: "This is another note",
       date: DateTime.now(),
       time: TimeOfDay(hour: 17, minute: 0),
       priority: 2,
@@ -30,7 +30,7 @@ class TaskModel extends ChangeNotifier {
     _tasks.add(Task(
       id: 2,
       title: "Task 3",
-      notes: "",
+      notes: "This is a third note",
       date: DateTime.now(),
       time: TimeOfDay(hour: 21, minute: 0),
       priority: 1,

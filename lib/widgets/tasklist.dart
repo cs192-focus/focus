@@ -213,7 +213,9 @@ Future<bool?> _asyncConfirmationDialog(BuildContext context, Task task) async {
           children: <Widget>[
             priorityLabel(task.priority, size: 18),
             SizedBox(width: 10),
-            Text(task.title,),
+            Text(
+              task.title,
+            ),
           ],
         ),
         content: Container(
@@ -239,16 +241,14 @@ Future<bool?> _asyncConfirmationDialog(BuildContext context, Task task) async {
               Column(
                 children: [
                   SizedBox(
-                    width: double.infinity,
+                    width: 300.0,
                     child: Container(
-                      height: 170.0,
-                      child: Expanded(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: Text(
-                            task.notes,
-                            textAlign: TextAlign.left,
-                          ),
+                      height: 100.0,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Text(
+                          task.notes,
+                          textAlign: TextAlign.left,
                         ),
                       ),
                     ),

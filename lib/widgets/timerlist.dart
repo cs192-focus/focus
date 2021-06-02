@@ -141,7 +141,8 @@ class _TimerListState extends State<TimerList> {
   }
 }
 
-Future<bool?> _asyncConfirmationDialog(BuildContext context, Timer timer) async {
+Future<bool?> _asyncConfirmationDialog(
+    BuildContext context, Timer timer) async {
   return showDialog<bool>(
     context: context,
     barrierDismissible: false, // user must tap button for close dialog!
@@ -156,23 +157,24 @@ Future<bool?> _asyncConfirmationDialog(BuildContext context, Timer timer) async 
               Row(
                 children: [
                   DateChip(date: timer.date),
-                  SizedBox(width: 10),
-                  TimeChip(timeStart: timer.timeStart, timeEnd: timer.timeEnd),
+                ],
+              ),
+              Row(
+                children: [
+                  TimeChip(timeStart: timer.timeStart, timeEnd: timer.timeEnd)
                 ],
               ),
               Column(
                 children: [
                   SizedBox(
-                    width: double.infinity,
+                    width: 300.0,
                     child: Container(
-                      height: 170.0,
-                      child: Expanded(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: Text(
-                            timer.notes,
-                            textAlign: TextAlign.left,
-                          ),
+                      height: 100.0,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Text(
+                          timer.notes,
+                          textAlign: TextAlign.left,
                         ),
                       ),
                     ),
